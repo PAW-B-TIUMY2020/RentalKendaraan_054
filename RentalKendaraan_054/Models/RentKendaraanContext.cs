@@ -28,7 +28,7 @@ namespace RentalKendaraan_054.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=DESKTOP-NKSUP13;Database=RentKendaraan;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-GB128HP\\MSSQL2014;Database=RentKendaraan;Trusted_Connection=True;");
             }
         }
 
