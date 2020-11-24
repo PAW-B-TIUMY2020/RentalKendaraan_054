@@ -19,7 +19,7 @@ namespace RentalKendaraan_054.Controllers
         }
 
         // GET: Genders
-        public async Task<IActionResult> Index(string ktsd, string searchString)
+        public async Task<IActionResult> Index(string ktsd, string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
             //buat list menyimpan ketersediaaan
             var ktsdList = new List<string>();
@@ -45,7 +45,36 @@ namespace RentalKendaraan_054.Controllers
             {
                 menu = menu.Where(s => s.NamaGender.Contains(searchString));
             }
-            return View(await menu.ToListAsync());
+            ViewData["CurrentSort"] = sortOrder;
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewData["CurrentFilter"] = searchString;
+            int pageSize = 5;
+            //untuk sorting
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    menu = menu.OrderByDescending(s => s.NamaGender);
+                    break;
+                case "Date":
+                    menu = menu.OrderBy(s => s.IdGender.ToString());
+                    break;
+                case "date_desc":
+                    menu = menu.OrderByDescending(s => s.IdGender.ToString());
+                    break;
+                default: //nama ascending
+                    menu = menu.OrderBy(s => s.NamaGender);
+                    break;
+            }
+            return View(await PaginatedList<Gender>.CreateAsync(menu.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Genders/Details/5
