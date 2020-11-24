@@ -9,6 +9,16 @@
 <p>
     <a asp-action="Create">Tambah Data Baru</a>
 </p>
+
+@using (Html.BeginForm("Index", "Peminjaman", FormMethod.Get))
+{
+    <p>
+        Ketersediaan: @Html.DropDownList("ktsd", "Pilih Tanggal Peminjaman")
+        Cari Data : @Html.TextBox("searchString")
+        <input type="submit" value="Filter" />
+    </p>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -33,34 +43,35 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TglPeminjaman)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Biaya)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdCustomerNavigation.IdCustomer)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdJaminanNavigation.IdJaminan)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdKendaraanNavigation.IdKendaraan)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdPeminjaman"><i class="fas fa-pen-alt"></i></a> |
-                <a asp-action="Details" asp-route-id="@item.IdPeminjaman"><i class="fas fa-list"></i></a> |
-                <a asp-action="Delete" asp-route-id="@item.IdPeminjaman"><i class="fas fa-trash-alt"></i></a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TglPeminjaman)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Biaya)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdCustomerNavigation.IdCustomer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdJaminanNavigation.IdJaminan)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdKendaraanNavigation.IdKendaraan)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdPeminjaman"><i class="fas fa-pen-alt"></i></a> |
+                    <a asp-action="Details" asp-route-id="@item.IdPeminjaman"><i class="fas fa-list"></i></a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdPeminjaman"><i class="fas fa-trash-alt"></i></a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 
-@{ 
+@{
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
