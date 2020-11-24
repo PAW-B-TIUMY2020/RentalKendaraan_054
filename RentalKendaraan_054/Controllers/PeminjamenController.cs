@@ -76,7 +76,6 @@ namespace RentalKendaraan_054.Controllers
                     break;
             }
             return View(await PaginatedList<Peminjaman>.CreateAsync(menu.AsNoTracking(), pageNumber ?? 1, pageSize));
-            
         }
 
         
